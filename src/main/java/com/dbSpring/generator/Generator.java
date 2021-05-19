@@ -4,9 +4,10 @@ import com.dbSpring.entity.*;
 import com.dbSpring.services.*;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Random;
+
+import static java.math.BigDecimal.ROUND_DOWN;
 
 public class Generator {
 
@@ -52,6 +53,7 @@ public class Generator {
             pizza.setSize(random.nextInt(30) + 20);
             pizza.setCategory_id(categoryService.findAll()
                     .get(random.nextInt(categoryService.findAll().size())));
+            pizza.setPrice(DataGenerator.generatePrice(random, 200, 600));
             pizzaService.createPizza(pizza);
             generateRestaurantPizza(restaurantPizzaService, restaurantService, pizza);
         }
@@ -112,7 +114,6 @@ public class Generator {
             RestaurantPizza restaurantPizza = new RestaurantPizza();
             restaurantPizza.setRestaurant_id(restaurantService.findById(i));
             restaurantPizza.setPizza_id(pizza);
-            restaurantPizza.setPrice(DataGenerator.generatePrice(random, 200, 600));
             restaurantPizza.setAvailable(DataGenerator.generateAvailable(random));
             restaurantPizzaService.createRestaurantPizzaService(restaurantPizza);
         }
@@ -124,12 +125,13 @@ public class Generator {
             RestaurantPizza restaurantPizza = new RestaurantPizza();
             restaurantPizza.setRestaurant_id(restaurant);
             restaurantPizza.setPizza_id(pizzaService.findById(i));
-            restaurantPizza.setPrice(DataGenerator.generatePrice(random, 200, 600));
             restaurantPizza.setAvailable(DataGenerator.generateAvailable(random));
             restaurantPizzaService.createRestaurantPizzaService(restaurantPizza);
         }
     }
 
+    //Т.к. для того чтобы создать связи нам треубется уже созданный Order поэтмоу мы перезаписываем значение
+    //на подсчитанный нами price с таблицы pizza_order и pizza_toppings.
     public void generateOrder(OrderService orderService, RestaurantService restaurantService,
                               PizzaService pizzaService, PizzaOrderService pizzaOrderService
             , ToppingService toppingService, PizzaToppingsService pizzaToppingsService) {
@@ -138,34 +140,46 @@ public class Generator {
             order.setRestaurant_id(restaurantService.findAll().
                     get(random.nextInt(restaurantService.findAll().size())));
             order.setDate(new Date());
-            order.setPrice(DataGenerator.generatePrice(random, 200, 600));
+            order.setPrice(DataGenerator.generatePrice(random, 10, 20));
             orderService.createOrder(order);
-            generatePizzaOrder(order, pizzaService, pizzaOrderService, toppingService, pizzaToppingsService);
-
+            order.setPrice(generatePizzaOrder(order, pizzaService,
+                    pizzaOrderService, toppingService, pizzaToppingsService));
+            orderService.createOrder(order);
         }
     }
 
     //Количество пицц в заказе от 1 до 10(можно менять максимальное значение)
-    public void generatePizzaOrder(Order order, PizzaService pizzaService, PizzaOrderService pizzaOrderService,
-                                   ToppingService toppingService, PizzaToppingsService pizzaToppingsService) {
-        BigDecimal price = new BigDecimal(0);
+    public BigDecimal generatePizzaOrder(Order order, PizzaService pizzaService, PizzaOrderService pizzaOrderService,
+                                         ToppingService toppingService, PizzaToppingsService pizzaToppingsService) {
+        double pricePizza = 0;
         for (int i = 0; i < random.nextInt(10) + 1; i++) {
             PizzaOrder pizzaOrder = new PizzaOrder();
             pizzaOrder.setOrder_id(order);
-            pizzaOrder.setPizza_id(pizzaService.findAll().get(random.nextInt(pizzaService.findAll().size())));
+            Pizza pizza = pizzaService.findAll().get(random.nextInt(pizzaService.findAll().size()));
+            pizzaOrder.setPizza_id(pizza);
             pizzaOrderService.createPizzaOrder(pizzaOrder);
-            generatePizzaToppings(pizzaOrder, toppingService, pizzaToppingsService);
+            pricePizza += generatePizzaToppings(pizzaOrder, toppingService, pizzaToppingsService) +
+                    Double.parseDouble("" + pizza.getPrice());
         }
+        return new BigDecimal(pricePizza).setScale(2, ROUND_DOWN);
     }
 
     //Генерируем топпинг на пиццу тоже по умолчанияю , но от 0 до 9(т.к. пицца может быть без топпинга)
-    public void generatePizzaToppings(PizzaOrder pizzaOrder,
-                                      ToppingService toppingService, PizzaToppingsService pizzaToppingsService) {
+    public double generatePizzaToppings(PizzaOrder pizzaOrder,
+                                        ToppingService toppingService, PizzaToppingsService pizzaToppingsService) {
+        double price = 0;
         for (int i = 0; i < random.nextInt(10); i++) {
             PizzaToppings pizzaToppings = new PizzaToppings();
-            pizzaToppings.setTopping_id(toppingService.findById((long) random.nextInt(toppingService.findAll().size())));
+            Topping notNullTopping =
+                    toppingService.findById((long) random.nextInt(toppingService.findAll().size()));
+            if (notNullTopping == null) {
+                notNullTopping = toppingService.findById((long) random.nextInt(10) + 1);
+            }
+            price += Double.parseDouble("" + notNullTopping.getPrice());
+            pizzaToppings.setTopping_id(notNullTopping);
             pizzaToppings.setPizza_order_id(pizzaOrder);
             pizzaToppingsService.createPizzaToppings(pizzaToppings);
         }
+        return price;
     }
 }

@@ -27,11 +27,6 @@ public class RestaurantPizza {
     @Column(name = "available")
     private boolean available;
 
-    @NotNull
-    @Column(name = "price")
-    private BigDecimal price;
-
-
     public Restaurant getRestaurant_id() {
         return restaurant_id;
     }
@@ -54,14 +49,6 @@ public class RestaurantPizza {
 
     public void setAvailable(boolean available) {
         this.available = available;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
     }
 
     public Long getId() {

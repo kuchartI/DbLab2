@@ -45,8 +45,15 @@ public class SpringjpapostgresApplication {
 
     @EventListener(ApplicationReadyEvent.class)
     public void generate() {
-        Generator generator = new Generator(0, 0, 0,
-                0, 0, 0, 1);
+        generateData(1, 1, 1,
+                1, 1, 1, 1);
+
+    }
+
+    public void generateData(int category, int pizza, int restaurant,
+                             int topping, int position, int employee, int orderCount) {
+        Generator generator = new Generator(category, pizza, restaurant,
+                topping, position, employee, orderCount);
         generator.generateCategory(categoryService);
         generator.generatePizza(pizzaService, categoryService, restaurantPizzaService, restaurantService);
         generator.generateRestaurant(restaurantService, restaurantPizzaService, pizzaService);

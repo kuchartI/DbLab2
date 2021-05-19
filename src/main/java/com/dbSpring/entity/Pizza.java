@@ -3,6 +3,7 @@ package com.dbSpring.entity;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "pizza")
@@ -29,6 +30,10 @@ public class Pizza {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "category_id")
     private Category category_id;
+
+    @NotNull
+    @Column(name = "price")
+    private BigDecimal price;
 
     public Long getId() {
         return id;
@@ -77,6 +82,15 @@ public class Pizza {
     public void setCategory_id(Category category_id) {
         this.category_id = category_id;
     }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
 
     @Override
     public String toString() {

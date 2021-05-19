@@ -2,13 +2,12 @@ package com.dbSpring.generator;
 
 import java.math.BigDecimal;
 import java.sql.Time;
-import java.util.Date;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class DataGenerator {
 
     public static String generateText(int length, Random r) {
+        length = r.nextInt(length) + 1;
         String s = r.ints(48, 122)
                 .filter(i -> (i < 57 || i > 65) && (i < 90 || i > 97))
                 .mapToObj(i -> (char) i)
@@ -36,6 +35,7 @@ public class DataGenerator {
         return new BigDecimal(s);
     }
 
+    //Это было сделано т.к. я посчтила, потому что не так часто нет какой-то пиццы в ресторане.
     public static boolean generateAvailable(Random r) {
         boolean[] availableChance = {true, true, false, true, true, true, true, true, true, true};
         return availableChance[r.nextInt(availableChance.length)];
