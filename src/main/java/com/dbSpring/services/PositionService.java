@@ -1,8 +1,6 @@
 package com.dbSpring.services;
 
-import com.dbSpring.entity.Pizza;
 import com.dbSpring.entity.Position;
-import com.dbSpring.repository.PizzaRepository;
 import com.dbSpring.repository.PositionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

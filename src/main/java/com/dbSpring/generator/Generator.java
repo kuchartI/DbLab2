@@ -110,9 +110,9 @@ public class Generator {
     // При каждом создании пиццы для каждого уже созданного ресторана создается пицца и все данные о ней
     public void generateRestaurantPizza(RestaurantPizzaService restaurantPizzaService, RestaurantService restaurantService,
                                         Pizza pizza) {
-        for (long i = 0; i < restaurantService.count(); i++) {
+        for (int i = 0; i < restaurantService.count(); i++) {
             RestaurantPizza restaurantPizza = new RestaurantPizza();
-            restaurantPizza.setRestaurant_id(restaurantService.findById(i));
+            restaurantPizza.setRestaurant_id(restaurantService.findAll().get(i));
             restaurantPizza.setPizza_id(pizza);
             restaurantPizza.setAvailable(DataGenerator.generateAvailable(random));
             restaurantPizzaService.createRestaurantPizzaService(restaurantPizza);
@@ -121,10 +121,10 @@ public class Generator {
 
     public void generateRestaurantPizza(RestaurantPizzaService restaurantPizzaService, PizzaService pizzaService,
                                         Restaurant restaurant) {
-        for (long i = 0; i < pizzaService.count(); i++) {
+        for (int i = 0; i < pizzaService.count(); i++) {
             RestaurantPizza restaurantPizza = new RestaurantPizza();
             restaurantPizza.setRestaurant_id(restaurant);
-            restaurantPizza.setPizza_id(pizzaService.findById(i));
+            restaurantPizza.setPizza_id(pizzaService.findAll().get(i));
             restaurantPizza.setAvailable(DataGenerator.generateAvailable(random));
             restaurantPizzaService.createRestaurantPizzaService(restaurantPizza);
         }
@@ -171,10 +171,7 @@ public class Generator {
         for (int i = 0; i < random.nextInt(10); i++) {
             PizzaToppings pizzaToppings = new PizzaToppings();
             Topping notNullTopping =
-                    toppingService.findById((long) random.nextInt(toppingService.findAll().size()));
-            if (notNullTopping == null) {
-                notNullTopping = toppingService.findById((long) random.nextInt(10) + 1);
-            }
+                    toppingService.findAll().get(random.nextInt(toppingService.findAll().size()));
             price += Double.parseDouble("" + notNullTopping.getPrice());
             pizzaToppings.setTopping_id(notNullTopping);
             pizzaToppings.setPizza_order_id(pizzaOrder);
