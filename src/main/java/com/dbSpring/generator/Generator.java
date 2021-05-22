@@ -154,7 +154,7 @@ public class Generator {
         for (int i = 0; i < random.nextInt(10) + 1; i++) {
             PizzaOrder pizzaOrder = new PizzaOrder();
             pizzaOrder.setOrder_id(order);
-            Pizza pizza = pizzaService.findAll().get(random.nextInt(pizzaService.count()));
+            Pizza pizza = pizzaService.findAll().get(random.nextInt(pizzaService.findAll().size()));
             pizzaOrder.setPizza_id(pizza);
             pizzaOrderService.createPizzaOrder(pizzaOrder);
             pricePizza += generatePizzaToppings(pizzaOrder, toppingService, pizzaToppingsService) +

@@ -1,9 +1,6 @@
 package com.dbSpring.services;
 
-import com.dbSpring.entity.Category;
 import com.dbSpring.entity.Pizza;
-import com.dbSpring.entity.Restaurant;
-import com.dbSpring.repository.CategoryRepository;
 import com.dbSpring.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

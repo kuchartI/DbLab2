@@ -1,9 +1,7 @@
 package com.dbSpring.services;
 
 import com.dbSpring.entity.PizzaOrder;
-import com.dbSpring.entity.Topping;
 import com.dbSpring.repository.PizzaOrderRepository;
-import com.dbSpring.repository.ToppingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
