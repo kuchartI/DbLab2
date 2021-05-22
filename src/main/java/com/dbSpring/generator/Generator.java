@@ -46,13 +46,12 @@ public class Generator {
                               RestaurantService restaurantService) {
         for (int i = 0; i < this.pizzaCount; i++) {
             Pizza pizza = new Pizza();
-            pizza.setId(pizzaService.count() + 1);
             pizza.setName(DataGenerator.generateText(30, random));
             pizza.setDescription(DataGenerator.generateText(100, random));
             pizza.setWeight(random.nextInt(999) + 1);
             pizza.setSize(random.nextInt(30) + 20);
             pizza.setCategory_id(categoryService.findAll()
-                    .get(random.nextInt(categoryService.findAll().size())));
+                    .get(random.nextInt(categoryService.count())));
             pizza.setPrice(DataGenerator.generatePrice(random, 200, 600));
             pizzaService.createPizza(pizza);
             generateRestaurantPizza(restaurantPizzaService, restaurantService, pizza);
@@ -98,11 +97,11 @@ public class Generator {
             employee.setEmployee_name(DataGenerator.generateText(30, random));
             employee.setEmployee_surname(DataGenerator.generateText(30, random));
             employee.setRestaurant_id(restaurantService.findAll().
-                    get(random.nextInt(restaurantService.findAll().size())));
+                    get(random.nextInt(restaurantService.count())));
             employee.setPhone(DataGenerator.generatePhone(random));
             employee.setSchedule(DataGenerator.generateSchedule(random));
             employee.setPosition_id(positionService.findAll().
-                    get(random.nextInt(positionService.findAll().size())));
+                    get(random.nextInt(positionService.count())));
             employeeService.createEmployee(employee);
         }
     }
@@ -138,7 +137,7 @@ public class Generator {
         for (long i = 0; i < orderCount; i++) {
             Order order = new Order();
             order.setRestaurant_id(restaurantService.findAll().
-                    get(random.nextInt(restaurantService.findAll().size())));
+                    get(random.nextInt(restaurantService.count())));
             order.setDate(new Date());
             order.setPrice(DataGenerator.generatePrice(random, 10, 20));
             orderService.createOrder(order);
@@ -155,7 +154,7 @@ public class Generator {
         for (int i = 0; i < random.nextInt(10) + 1; i++) {
             PizzaOrder pizzaOrder = new PizzaOrder();
             pizzaOrder.setOrder_id(order);
-            Pizza pizza = pizzaService.findAll().get(random.nextInt(pizzaService.findAll().size()));
+            Pizza pizza = pizzaService.findAll().get(random.nextInt(pizzaService.count()));
             pizzaOrder.setPizza_id(pizza);
             pizzaOrderService.createPizzaOrder(pizzaOrder);
             pricePizza += generatePizzaToppings(pizzaOrder, toppingService, pizzaToppingsService) +
@@ -171,7 +170,7 @@ public class Generator {
         for (int i = 0; i < random.nextInt(10); i++) {
             PizzaToppings pizzaToppings = new PizzaToppings();
             Topping notNullTopping =
-                    toppingService.findById((long) random.nextInt(toppingService.findAll().size()));
+                    toppingService.findById((long) random.nextInt(toppingService.count()));
             if (notNullTopping == null) {
                 notNullTopping = toppingService.findById((long) random.nextInt(10) + 1);
             }

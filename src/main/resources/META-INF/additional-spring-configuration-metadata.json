@@ -1,0 +1,38 @@
+{
+  "properties": [
+    {
+      "name": "demo.category",
+      "type": "java.lang.Integer",
+      "description": "Description for demo.category."
+    },
+    {
+      "name": "demo.pizza",
+      "type": "java.lang.Integer",
+      "description": "Description for demo.pizza."
+    },
+    {
+      "name": "demo.restaurant",
+      "type": "java.lang.Integer",
+      "description": "Description for demo.restaurant."
+    },
+    {
+      "name": "demo.topping",
+      "type": "java.lang.Integer",
+      "description": "Description for demo.topping."
+    },
+    {
+      "name": "demo.position",
+      "type": "java.lang.Integer",
+      "description": "Description for demo.position."
+    },
+    {
+      "name": "demo.employee",
+      "type": "java.lang.Integer",
+      "description": "Description for demo.employee."
+    },
+    {
+      "name": "demo.order",
+      "type": "java.lang.Integer",
+      "description": "Description for demo.order."
+    }
+  ] }

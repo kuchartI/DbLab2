@@ -18,8 +18,8 @@ public class PizzaOrderService {
         this.pizzaOrderRepository = pizzaOrderRepository;
     }
 
-    public Long count() {
-        return pizzaOrderRepository.count();
+    public int count() {
+        return (int)pizzaOrderRepository.count();
     }
 
     public PizzaOrder findById(Long id) {

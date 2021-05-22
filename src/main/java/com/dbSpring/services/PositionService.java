@@ -19,8 +19,8 @@ public class PositionService {
         this.positionRepository = positionRepository;
     }
 
-    public Long count() {
-        return positionRepository.count();
+    public int count() {
+        return (int) positionRepository.count();
     }
 
     public void createPosition(Position position) {

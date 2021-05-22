@@ -16,8 +16,8 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public Long count() {
-        return orderRepository.count();
+    public int count() {
+        return (int) orderRepository.count();
     }
 
     public Order findById(Long id) {

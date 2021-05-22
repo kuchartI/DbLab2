@@ -17,8 +17,8 @@ public class PizzaToppingsService {
         this.pizzaToppingsRepository = pizzaToppingsRepository;
     }
 
-    public Long count() {
-        return pizzaToppingsRepository.count();
+    public int count() {
+        return (int) pizzaToppingsRepository.count();
     }
 
     public PizzaToppings findById(Long id) {

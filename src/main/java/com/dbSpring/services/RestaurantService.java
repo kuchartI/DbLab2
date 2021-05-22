@@ -17,8 +17,8 @@ public class RestaurantService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    public Long count() {
-        return restaurantRepository.count();
+    public int count() {
+        return (int) restaurantRepository.count();
     }
 
     public Restaurant findById(Long id) {

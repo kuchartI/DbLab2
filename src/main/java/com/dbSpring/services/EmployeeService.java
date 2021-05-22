@@ -15,8 +15,8 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public Long count() {
-        return employeeRepository.count();
+    public int count() {
+        return (int) employeeRepository.count();
     }
 
     public void createEmployee(Employee employee) {

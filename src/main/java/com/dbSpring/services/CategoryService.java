@@ -17,8 +17,8 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public Long count() {
-        return categoryRepository.count();
+    public int count() {
+        return (int) categoryRepository.count();
     }
 
     public void createCategory(Category category) {

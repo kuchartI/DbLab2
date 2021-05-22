@@ -5,52 +5,52 @@ import com.dbSpring.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
-public class SpringjpapostgresApplication {
+@EnableConfigurationProperties({AppProperties.class})
+public class SpringJpaPostgresApplication {
 
     @Autowired
-    private PizzaService pizzaService;
+    private static PizzaService pizzaService;
 
     @Autowired
-    private CategoryService categoryService;
+    private static CategoryService categoryService;
 
     @Autowired
-    private RestaurantService restaurantService;
+    private static RestaurantService restaurantService;
 
     @Autowired
-    private ToppingService toppingService;
+    private static ToppingService toppingService;
 
     @Autowired
-    private PositionService positionService;
+    private static PositionService positionService;
 
     @Autowired
-    private EmployeeService employeeService;
+    private static EmployeeService employeeService;
 
     @Autowired
-    private RestaurantPizzaService restaurantPizzaService;
+    private static RestaurantPizzaService restaurantPizzaService;
+
     @Autowired
-    private OrderService orderService;
+    private static OrderService orderService;
+
     @Autowired
-    private PizzaOrderService pizzaOrderService;
+    private static PizzaOrderService pizzaOrderService;
+
     @Autowired
-    private PizzaToppingsService pizzaToppingsService;
+    private static PizzaToppingsService pizzaToppingsService;
 
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringjpapostgresApplication.class, args);
+        ConfigurableApplicationContext context = SpringApplication.run(SpringJpaPostgresApplication.class, args);
+        AppProperties properties = context.getBean(AppProperties.class);
+        generateData(properties.getCategory(), properties.getPizza(), properties.getRestaurant(),
+                properties.getTopping(), properties.getPosition(), properties.getEmployee(), properties.getOrder());
     }
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void generate() {
-        generateData(1, 1, 1,
-                1, 1, 1, 1);
-
-    }
-
-    public void generateData(int category, int pizza, int restaurant,
+    public static void generateData(int category, int pizza, int restaurant,
                              int topping, int position, int employee, int orderCount) {
         Generator generator = new Generator(category, pizza, restaurant,
                 topping, position, employee, orderCount);

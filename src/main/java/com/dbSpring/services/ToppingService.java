@@ -17,8 +17,8 @@ public class ToppingService {
         this.toppingRepository = toppingRepository;
     }
 
-    public Long count() {
-        return toppingRepository.count();
+    public int count() {
+        return (int) toppingRepository.count();
     }
 
     public Topping findById(Long id) {
