@@ -27,7 +27,7 @@ public class Pizza {
     @Column(name = "size")
     private int size;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "category_id")
     private Category category_id;
 

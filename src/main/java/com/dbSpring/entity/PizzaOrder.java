@@ -16,6 +16,7 @@ public class PizzaOrder {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "pizza_id")
     private Pizza pizza_id;
+
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "order_id")

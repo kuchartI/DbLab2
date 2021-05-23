@@ -14,7 +14,7 @@ public class Order {
     private Long id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant_id;
 

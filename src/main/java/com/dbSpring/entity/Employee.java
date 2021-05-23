@@ -32,7 +32,7 @@ public class Employee {
     private String schedule;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "position_id")
     private Position position_id;
 
